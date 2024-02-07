@@ -11,7 +11,6 @@ import { useRouter } from 'vue-router'
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { UserType } from '@/api/login/types'
 import { useValidator } from '@/hooks/web/useValidator'
-import { Icon } from '@/components/Icon'
 import { useUserStore } from '@/store/modules/user'
 import { BaseButton } from '@/components/Button'
 
@@ -51,19 +50,17 @@ const schema = reactive<FormSchema[]>([
   {
     field: 'username',
     label: t('login.username'),
-    // value: 'admin',
     component: 'Input',
     colProps: {
       span: 24
     },
     componentProps: {
-      placeholder: 'admin or test'
+      placeholder: '请输入用户名'
     }
   },
   {
     field: 'password',
     label: t('login.password'),
-    // value: 'admin',
     component: 'InputPassword',
     colProps: {
       span: 24
@@ -72,7 +69,7 @@ const schema = reactive<FormSchema[]>([
       style: {
         width: '100%'
       },
-      placeholder: 'admin or test'
+      placeholder: '请输入密码'
     }
   },
   {
@@ -117,65 +114,6 @@ const schema = reactive<FormSchema[]>([
                   {t('login.login')}
                 </BaseButton>
               </div>
-              <div class="w-[100%] mt-15px">
-                <BaseButton class="w-[100%]" onClick={toRegister}>
-                  {t('login.register')}
-                </BaseButton>
-              </div>
-            </>
-          )
-        }
-      }
-    }
-  },
-  {
-    field: 'other',
-    component: 'Divider',
-    label: t('login.otherLogin'),
-    componentProps: {
-      contentPosition: 'center'
-    }
-  },
-  {
-    field: 'otherIcon',
-    colProps: {
-      span: 24
-    },
-    formItemProps: {
-      slots: {
-        default: () => {
-          return (
-            <>
-              <div class="flex justify-between w-[100%]">
-                <Icon
-                  icon="ant-design:github-filled"
-                  size={iconSize}
-                  class="cursor-pointer ant-icon"
-                  color={iconColor}
-                  hoverColor={hoverColor}
-                />
-                <Icon
-                  icon="ant-design:wechat-filled"
-                  size={iconSize}
-                  class="cursor-pointer ant-icon"
-                  color={iconColor}
-                  hoverColor={hoverColor}
-                />
-                <Icon
-                  icon="ant-design:alipay-circle-filled"
-                  size={iconSize}
-                  color={iconColor}
-                  hoverColor={hoverColor}
-                  class="cursor-pointer ant-icon"
-                />
-                <Icon
-                  icon="ant-design:weibo-circle-filled"
-                  size={iconSize}
-                  color={iconColor}
-                  hoverColor={hoverColor}
-                  class="cursor-pointer ant-icon"
-                />
-              </div>
             </>
           )
         }
@@ -183,8 +121,6 @@ const schema = reactive<FormSchema[]>([
     }
   }
 ])
-
-const iconSize = 30
 
 const remember = ref(userStore.getRememberMe)
 
@@ -203,10 +139,6 @@ const { formRegister, formMethods } = useForm()
 const { getFormData, getElFormExpose, setValues } = formMethods
 
 const loading = ref(false)
-
-const iconColor = '#999'
-
-const hoverColor = 'var(--el-color-primary)'
 
 const redirect = ref<string>('')
 
@@ -285,11 +217,6 @@ const getRole = async () => {
     permissionStore.setIsAddRouters(true)
     push({ path: redirect.value || permissionStore.addRouters[0].path })
   }
-}
-
-// 去注册页面
-const toRegister = () => {
-  emit('to-register')
 }
 </script>
 
