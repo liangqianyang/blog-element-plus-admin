@@ -5,9 +5,9 @@ import { PropType, reactive, watch, ref, unref } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
 import { useI18n } from '@/hooks/web/useI18n'
 import { getMenuListApi } from '@/api/menu'
-import { ElTag } from 'element-plus'
+// import { ElTag } from 'element-plus'
 import AddButtonPermission from './AddButtonPermission.vue'
-import { BaseButton } from '@/components/Button'
+// import { BaseButton } from '@/components/Button'
 import { cloneDeep } from 'lodash-es'
 
 const { t } = useI18n()
@@ -21,22 +21,22 @@ const props = defineProps({
   }
 })
 
-const handleClose = async (tag: any) => {
-  const formData = await getFormData()
-  // 删除对应的权限
-  setValues({
-    permissionList: formData?.permissionList?.filter((v: any) => v.value !== tag.value)
-  })
-}
+// const handleClose = async (tag: any) => {
+//   const formData = await getFormData()
+//   // 删除对应的权限
+//   setValues({
+//     permissionList: formData?.permissionList?.filter((v: any) => v.value !== tag.value)
+//   })
+// }
 
 const showDrawer = ref(false)
 
 const formSchema = reactive<FormSchema[]>([
   {
-    field: 'type',
+    field: 'menu_type',
     label: '菜单类型',
     component: 'RadioButton',
-    value: 0,
+    value: 1,
     colProps: {
       span: 24
     },
@@ -44,17 +44,17 @@ const formSchema = reactive<FormSchema[]>([
       options: [
         {
           label: '目录',
-          value: 0
+          value: 1
         },
         {
           label: '菜单',
-          value: 1
+          value: 2
         }
       ],
       on: {
         change: async (val: number) => {
           const formData = await getFormData()
-          if (val === 1) {
+          if (val === 2) {
             setSchema([
               {
                 field: 'component',
@@ -89,7 +89,7 @@ const formSchema = reactive<FormSchema[]>([
     }
   },
   {
-    field: 'parentId',
+    field: 'parent_id',
     label: '父级菜单',
     component: 'TreeSelect',
     componentProps: {
@@ -107,15 +107,15 @@ const formSchema = reactive<FormSchema[]>([
       on: {
         change: async (val: number) => {
           const formData = await getFormData()
-          if (val && formData.type === 0) {
+          if (val && formData.menu_type === 1) {
             setValues({
               component: '##'
             })
-          } else if (!val && formData.type === 0) {
+          } else if (!val && formData.menu_type === 1) {
             setValues({
               component: '#'
             })
-          } else if (formData.type === 1) {
+          } else if (formData.menu_type === 2) {
             setValues({
               component: unref(cacheComponent) ?? ''
             })
@@ -140,7 +140,7 @@ const formSchema = reactive<FormSchema[]>([
     value: '#',
     componentProps: {
       disabled: true,
-      placeholder: '#为顶级目录，##为子目录',
+      placeholder: '#为顶级目录，组件对应views下的文件夹名，如：/views/demo/index.vue',
       on: {
         change: (val: string) => {
           cacheComponent.value = val
@@ -164,19 +164,14 @@ const formSchema = reactive<FormSchema[]>([
     component: 'Input'
   },
   {
-    field: 'meta.activeMenu',
-    label: t('menu.activeMenu'),
-    component: 'Input'
-  },
-  {
-    field: 'status',
+    field: 'state',
     label: t('menu.status'),
     component: 'Select',
     componentProps: {
       options: [
         {
           label: t('userDemo.disable'),
-          value: 0
+          value: -1
         },
         {
           label: t('userDemo.enable'),
@@ -185,66 +180,81 @@ const formSchema = reactive<FormSchema[]>([
       ]
     }
   },
-  {
-    field: 'permissionList',
-    label: t('menu.permission'),
-    component: 'CheckboxGroup',
-    colProps: {
-      span: 24
-    },
-    formItemProps: {
-      slots: {
-        default: (data: any) => (
-          <>
-            {data?.permissionList?.map((v) => {
-              return (
-                <ElTag class="mr-1" key={v.value} closable onClose={() => handleClose(v)}>
-                  {v.label}
-                </ElTag>
-              )
-            })}
-            <BaseButton type="primary" size="small" onClick={() => (showDrawer.value = true)}>
-              添加权限
-            </BaseButton>
-          </>
-        )
-      }
-    }
-  },
+  // {
+  //   field: 'permissionList',
+  //   label: t('menu.permission'),
+  //   component: 'CheckboxGroup',
+  //   colProps: {
+  //     span: 24
+  //   },
+  //   formItemProps: {
+  //     slots: {
+  //       default: (data: any) => (
+  //         <>
+  //           {data?.permissionList?.map((v) => {
+  //             return (
+  //               <ElTag class="mr-1" key={v.value} closable onClose={() => handleClose(v)}>
+  //                 {v.label}
+  //               </ElTag>
+  //             )
+  //           })}
+  //           <BaseButton type="primary" size="small" onClick={() => (showDrawer.value = true)}>
+  //             添加权限
+  //           </BaseButton>
+  //         </>
+  //       )
+  //     }
+  //   }
+  // },
   {
     field: 'meta.hidden',
     label: t('menu.hidden'),
     component: 'Switch'
   },
   {
-    field: 'meta.alwaysShow',
+    field: 'meta.always_show',
     label: t('menu.alwaysShow'),
-    component: 'Switch'
+    component: 'Switch',
+    componentProps: {
+      activeValue: 1,
+      inactiveValue: 0
+    }
   },
   {
-    field: 'meta.noCache',
+    field: 'meta.no_cache',
     label: t('menu.noCache'),
-    component: 'Switch'
+    component: 'Switch',
+    componentProps: {
+      activeValue: 1,
+      inactiveValue: 0
+    }
   },
   {
     field: 'meta.breadcrumb',
     label: t('menu.breadcrumb'),
-    component: 'Switch'
+    component: 'Switch',
+    componentProps: {
+      activeValue: 1,
+      inactiveValue: 0
+    }
   },
   {
     field: 'meta.affix',
     label: t('menu.affix'),
-    component: 'Switch'
+    component: 'Switch',
+    componentProps: {
+      activeValue: 1,
+      inactiveValue: 0
+    }
   },
   {
-    field: 'meta.noTagsView',
+    field: 'meta.no_tags_view',
     label: t('menu.noTagsView'),
-    component: 'Switch'
-  },
-  {
-    field: 'meta.canTo',
-    label: t('menu.canTo'),
-    component: 'Switch'
+    component: 'Switch',
+    componentProps: {
+      activeValue: 1,
+      inactiveValue: 0
+    }
   }
 ])
 

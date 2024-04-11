@@ -87,14 +87,14 @@ const tableColumns = reactive<TableColumn[]>([
     label: t('menu.path')
   },
   {
-    field: 'status',
+    field: 'state',
     label: t('menu.status'),
     slots: {
       default: (data: any) => {
         return (
           <>
-            <ElTag type={data.row.status === 0 ? 'danger' : 'success'}>
-              {data.row.status === 1 ? t('userDemo.enable') : t('userDemo.disable')}
+            <ElTag type={data.row.state === 0 ? 'danger' : 'success'}>
+              {data.row.state === 1 ? t('userDemo.enable') : t('userDemo.disable')}
             </ElTag>
           </>
         )
@@ -116,7 +116,6 @@ const tableColumns = reactive<TableColumn[]>([
             <BaseButton type="success" onClick={() => action(row, 'detail')}>
               {t('exampleDemo.detail')}
             </BaseButton>
-            <BaseButton type="danger">{t('exampleDemo.del')}</BaseButton>
           </>
         )
       }
@@ -126,7 +125,7 @@ const tableColumns = reactive<TableColumn[]>([
 
 const searchSchema = reactive<FormSchema[]>([
   {
-    field: 'meta.title',
+    field: 'name',
     label: t('menu.menuName'),
     component: 'Input'
   }

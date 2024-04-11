@@ -17,19 +17,15 @@ const renderTag = (enable?: boolean) => {
 
 const detailSchema = ref<DescriptionsSchema[]>([
   {
-    field: 'type',
+    field: 'menu_type',
     label: '菜单类型',
     span: 24,
     slots: {
       default: (data) => {
         const type = data.type
-        return <>{type === 1 ? '菜单' : '目录'}</>
+        return <>{type === 2 ? '菜单' : '目录'}</>
       }
     }
-  },
-  {
-    field: 'parentName',
-    label: '父级菜单'
   },
   {
     field: 'meta.title',
@@ -71,34 +67,30 @@ const detailSchema = ref<DescriptionsSchema[]>([
     field: 'path',
     label: '路径'
   },
+  // {
+  //   field: 'permissionList',
+  //   label: '按钮权限',
+  //   span: 24,
+  //   slots: {
+  //     default: (data: any) => (
+  //       <>
+  //         {data?.permissionList?.map((v) => {
+  //           return (
+  //             <ElTag class="mr-1" key={v.value}>
+  //               {v.label}
+  //             </ElTag>
+  //           )
+  //         })}
+  //       </>
+  //     )
+  //   }
+  // },
   {
-    field: 'meta.activeMenu',
-    label: '高亮菜单'
-  },
-  {
-    field: 'permissionList',
-    label: '按钮权限',
-    span: 24,
-    slots: {
-      default: (data: any) => (
-        <>
-          {data?.permissionList?.map((v) => {
-            return (
-              <ElTag class="mr-1" key={v.value}>
-                {v.label}
-              </ElTag>
-            )
-          })}
-        </>
-      )
-    }
-  },
-  {
-    field: 'menuState',
+    field: 'state',
     label: '菜单状态',
     slots: {
       default: (data) => {
-        return renderTag(data.menuState)
+        return renderTag(data.state)
       }
     }
   },
@@ -107,25 +99,25 @@ const detailSchema = ref<DescriptionsSchema[]>([
     label: '是否隐藏',
     slots: {
       default: (data) => {
-        return renderTag(data.enableHidden)
+        return renderTag(data.meta.hidden)
       }
     }
   },
   {
-    field: 'meta.alwaysShow',
+    field: 'meta.always_show',
     label: '是否一直显示',
     slots: {
       default: (data) => {
-        return renderTag(data.enableDisplay)
+        return renderTag(data.meta.always_show)
       }
     }
   },
   {
-    field: 'meta.noCache',
+    field: 'meta.no_cache',
     label: '是否清除缓存',
     slots: {
       default: (data) => {
-        return renderTag(data.enableCleanCache)
+        return renderTag(data.meta.no_cache)
       }
     }
   },
@@ -134,7 +126,7 @@ const detailSchema = ref<DescriptionsSchema[]>([
     label: '是否显示面包屑',
     slots: {
       default: (data) => {
-        return renderTag(data.enableShowCrumb)
+        return renderTag(data.meta.breadcrumb)
       }
     }
   },
@@ -143,25 +135,16 @@ const detailSchema = ref<DescriptionsSchema[]>([
     label: '是否固定标签页',
     slots: {
       default: (data) => {
-        return renderTag(data.enablePinnedTab)
+        return renderTag(data.meta.affix)
       }
     }
   },
   {
-    field: 'meta.noTagsView',
+    field: 'meta.no_tags_view',
     label: '是否隐藏标签页',
     slots: {
       default: (data) => {
-        return renderTag(data.enableHiddenTab)
-      }
-    }
-  },
-  {
-    field: 'meta.canTo',
-    label: '是否可跳转',
-    slots: {
-      default: (data) => {
-        return renderTag(data.enableSkip)
+        return renderTag(data.meta.no_tags_view)
       }
     }
   }

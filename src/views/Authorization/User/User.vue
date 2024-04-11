@@ -3,7 +3,8 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref, unref, nextTick, watch, reactive } from 'vue'
-import { ElTree, ElInput, ElDivider } from 'element-plus'
+import { ElTree } from 'element-plus'
+// import { ElInput, ElDivider } from 'element-plus'
 import { getDepartmentApi, getUserByIdApi, saveUserApi, deleteUserByIdApi } from '@/api/department'
 import type { DepartmentItem, DepartmentUserItem } from '@/api/department/types'
 import { useTable } from '@/hooks/web/useTable'
@@ -220,18 +221,6 @@ watch(
   }
 )
 
-const currentChange = (data: DepartmentItem) => {
-  // if (data.children) return
-  currentNodeKey.value = data.id
-  currentPage.value = 1
-  getList()
-}
-
-const filterNode = (value: string, data: DepartmentItem) => {
-  if (!value) return true
-  return data.departmentName.includes(value)
-}
-
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
@@ -293,42 +282,8 @@ const save = async () => {
 </script>
 
 <template>
-  <div class="flex w-100% h-100%">
-    <ContentWrap class="w-250px">
-      <div class="flex justify-center items-center">
-        <div class="flex-1">{{ t('userDemo.departmentList') }}</div>
-        <ElInput
-          v-model="currentDepartment"
-          class="flex-[2]"
-          :placeholder="t('userDemo.searchDepartment')"
-          clearable
-        />
-      </div>
-      <ElDivider />
-      <ElTree
-        ref="treeEl"
-        :data="departmentList"
-        default-expand-all
-        :expand-on-click-node="false"
-        node-key="id"
-        :current-node-key="currentNodeKey"
-        :props="{
-          label: 'departmentName'
-        }"
-        :filter-node-method="filterNode"
-        @current-change="currentChange"
-      >
-        <template #default="{ data }">
-          <div
-            :title="data.departmentName"
-            class="whitespace-nowrap overflow-ellipsis overflow-hidden"
-          >
-            {{ data.departmentName }}
-          </div>
-        </template>
-      </ElTree>
-    </ContentWrap>
-    <ContentWrap class="flex-[3] ml-20px">
+  <div>
+    <ContentWrap>
       <Search
         :schema="allSchemas.searchSchema"
         @reset="setSearchParams"
