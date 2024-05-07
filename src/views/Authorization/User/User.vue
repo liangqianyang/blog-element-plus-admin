@@ -62,6 +62,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'id',
     label: 'ID',
+    width: 50,
     form: {
       hidden: true
     },
@@ -123,6 +124,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'state',
     label: t('menu.status'),
+    width: 70,
     slots: {
       default: (data: any) => {
         return (
