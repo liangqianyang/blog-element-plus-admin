@@ -5,12 +5,7 @@ import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElTag } from 'element-plus'
 import { Table } from '@/components/Table'
-import {
-  getDepartmentApi,
-  getDepartmentTableApi,
-  saveDepartmentApi,
-  deleteDepartmentApi
-} from '@/api/department'
+import { getDepartmentTableApi, saveDepartmentApi, deleteDepartmentApi } from '@/api/department'
 import type { DepartmentItem } from '@/api/department/types'
 import { useTable } from '@/hooks/web/useTable'
 import { ref, unref, reactive } from 'vue'
@@ -99,8 +94,7 @@ const crudSchemas = reactive<CrudSchema[]>([
         }
       },
       optionApi: async () => {
-        const res = await getDepartmentApi()
-        return res.data.list
+        return []
       }
     },
     detail: {
