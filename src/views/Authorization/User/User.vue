@@ -134,6 +134,9 @@ const crudSchemas = reactive<CrudSchema[]>([
         )
       }
     },
+    search: {
+      hidden: true
+    },
     form: {
       component: 'Select',
       value: [],

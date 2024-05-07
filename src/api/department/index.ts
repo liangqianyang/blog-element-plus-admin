@@ -1,8 +1,8 @@
 import request from '@/axios'
 import { UserListResponse, UserListParams } from './types'
 
-export const getUserListApi = (params: UserListParams) => {
-  return request.post<UserListResponse>({ url: '/api/permissions/user/list', params })
+export const getUserListApi = (data: UserListParams) => {
+  return request.post<UserListResponse>({ url: '/api/permissions/user/list', data })
 }
 
 export const deleteUserByIdApi = (ids: string[] | number[]) => {
