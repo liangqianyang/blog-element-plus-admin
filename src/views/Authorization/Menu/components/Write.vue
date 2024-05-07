@@ -125,6 +125,12 @@ const formSchema = reactive<FormSchema[]>([
     },
     optionApi: async () => {
       const res = await getMenuListApi()
+      // 插入一个根节点
+      res.data.list.unshift({
+        id: 0,
+        title: '根目录',
+        children: []
+      })
       return res.data.list || []
     }
   },

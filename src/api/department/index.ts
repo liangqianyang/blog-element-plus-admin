@@ -1,12 +1,8 @@
 import request from '@/axios'
-import { DepartmentListResponse, DepartmentUserParams, DepartmentUserResponse } from './types'
+import { UserListResponse, UserListParams } from './types'
 
-export const getDepartmentApi = () => {
-  return request.get<DepartmentListResponse>({ url: '/mock/department/list' })
-}
-
-export const getUserByIdApi = (params: DepartmentUserParams) => {
-  return request.get<DepartmentUserResponse>({ url: '/mock/department/users', params })
+export const getUserListApi = (params: UserListParams) => {
+  return request.post<UserListResponse>({ url: '/api/permissions/user/list', params })
 }
 
 export const deleteUserByIdApi = (ids: string[] | number[]) => {

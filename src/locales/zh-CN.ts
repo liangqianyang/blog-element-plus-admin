@@ -523,7 +523,9 @@ export default {
     // 禁用
     disable: '禁用',
     // 上级部门
-    superiorDepartment: '上级部门'
+    superiorDepartment: '上级部门',
+    // 手机号
+    mobile: '手机号'
   },
   menu: {
     menuName: '菜单名称',
